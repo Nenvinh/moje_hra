@@ -2,18 +2,58 @@
 #include <cstdlib> // knihovna pro random
 #include <ctime> // knihovna pro unique num
 using namespace std;
-int ammo_count(int vyuziti_ammo){
-int base_ammo_count = 50;
-return base_ammo_count - vyuziti_ammo;
+//PLAYER PART
+
+//player ammo
+bool is_enough_ammo (int current_ammo, int ammo_usage){
+if (current_ammo - ammo_usage < 0){
+    is_enough_ammo = false;
 }
 
-float player_health(){
+else if (current_ammo - ammo_usage >= 0){
+    is_enough_ammo = true;
+}
 
 }
 
+int ammo_count(int current_ammo, int ammo_usage){
+if (is_enough_ammo == true){
+    current_ammo = current_ammo - ammo_usage;
+    return current_ammo;
+}
+
+else if (is_enough_ammo == false){
+    cout << "Nedostatek munice.\n";
+}
+
+}
+
+//player health
+float player_health(float current_player_life, float dealt_damage, float class_advantages = 1, float upgrade_advantages = 1,){
+
+}
+
+//player damage
 float player_damage(){
 
 }
+
+//OPFOR PART
+
+
+//OPFOR life
+float opfor_life(){
+
+}
+
+//OPFOR damage
+float opfor_damage(){
+
+}
+
+
+
+
 
 int main (){
 
@@ -33,8 +73,19 @@ do{
     cout << "Zadej utok (spray, aim, hide, heal): ";
     cin >> utok;
     if (utok == "spray"){
+        is_enough_ammo(player_ammo, 10);
+        switch (is_enough_ammo){
+        case true:
+            ammo_count(is_enough_ammo, player_ammo, 10);
+            break;
+        case false:
+
+            break;
+        default:
+            cout << "Bullet count error.\n";
+        }
         opfor_life = opfor_life - player_attack;
-        ammo_count(5);
+
         cout << "Zautocil jsi na nepritele. (spray'n'pray)\n";
     }
     else if(utok == "aim"){
