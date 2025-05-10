@@ -2,136 +2,122 @@
 #include <cstdlib> // knihovna pro random
 #include <ctime> // knihovna pro unique num
 using namespace std;
+void player_defeat(int player_life);
+void manual();
+
 int main (){
+//player
+struct{
+    string jmeno;
+    float life = 20;
+    float attack = 10;
+    float heavy_attack = attack * 2;
+    int ammo = 50;
+    int ammo_usage = 10;
+    int ammo_usage_heavy = 15;
+    int level = 1;
+    float armour = 1;
+    float heal_upgrade = 1;
+    float life_upgrade = 1;
+    float damage_upgrade = 1;
+    float price = 1;
+    int cash = 5;
+    float cash_gain = 1;
+    int inventory[3]{0, 0, 0};
+}player;
+
+//opfor
+struct{
+    string final_boss = " Andres 'Ascendrax' Dragan ";
+    string mini_boss_1 = "place_holder_name1";
+    string mini_boss_2 = "place_holder_name2";
+    float life = 30;
+    int damage = 10;
+    float level = 1;
+}opfor;
+
 
 //parametry
-float vylepseni_attack = 1, vylepseni_health = 1, vylepseni_obrana = 1;
 bool opakovani = false;
 int fumble = 0;
-float player_life = 20, player_attack = 10, player_ammo = 50;
-float opfor_life = 100, opfor_attack = 10;
-string utok;
 do{
     cout << "-------------------------------------------------------FRIENDLY ACTIONS-------------------------------------------------";
     do{
     bool opakovani = false;
-    cout << "Player life: " << player_life << endl;
-    cout << "Player ammo: " << player_ammo << endl;
-    cout << "Zadej utok (spray, aim, hide, heal): ";
+    int fumble = 0;
+    string utok;
+    cout << "Player stats: \n";
+    cout << "Player life: " << player.life << " hp" << endl;
+    cout << "Player ammo: " << player.ammo << endl;
+    cout << "Player attack: " << player.attack << " dmg" << endl;
+    cout << "\n";
+    cout << "OPFOR stats: \n";
+    cout << "OPFOR life: " << opfor.life << " hp" << endl;
+    cout << "OPFOR attack: " << opfor.damage << " dmg" << endl;
+    cout << "\n";
+    manual();
+    cout << "Vyber si akci (spray, aim, reload, heal): ";
     cin >> utok;
     if (utok == "spray"){
-        pokracovani(player_ammo, 5);
-        switch(pokracovani){
-            case 0:
-            cout << "Nedostatek munice na utok.\n";
-            fumble++;
-            break;
-            case 1:
-            player_attack = 3 + player_attack;
-            opfor_life = opfor_life - player_attack;
-            cout << "Zautocil jsi na nepritele. (spray'n'pray)\n";
-            opakovani = true;
-            break;
-            default:
-            cout << "switch error. line 32\n";
-        }
+      opfor.life = opfor.life - player.attack;
+      cout << "\n";
+      cout << "Zacal jsi strilet na nepritele.\n";
+      opakovani = true;
     }
     else if(utok == "aim"){
-        player_attack = 2 * player_attack;
-        opfor_life = opfor_life - player_attack;
+        opfor.life = opfor.life - player.heavy_attack;
+        cout << "\n";
         cout << "Zamiril jsi na nepritele a strilel\n";
         opakovani = true;
     }
-    else if(utok == "hide"){
-        player_ammo = player_ammo + 20;
+    else if(utok == "reload"){
+        player.ammo = player.ammo + 20;
+        cout << "\n";
         cout << "Prebij jsi zasobnik\n";
         opakovani = true;
     }
     else if(utok == "heal"){
-        player_life = player_life + 5;
+        player.life = player.life + 5;
+        cout << "\n";
         cout << "Vylecil ses\n";
         opakovani = true;
     }
     else {
-        player_life = player_life * 0.5;
-        cout << "Zpanikaril jsi, a nepritel te zasahl. -" << player_life << "hp.";
+        player.life = player.life * 0.5;
+        cout << "\n";
+        cout << "Zpanikaril jsi, a nepritel te zasahl. -" << player.life << "hp.";
         opakovani = true;
     }
 
     }while(opakovani = false);
+    cout << "OPFOR life: " << opfor.life << endl;
     cout << "--------------------------------------------------------ENEMY ACTIONS---------------------------------------------------";
+    if (opfor.life >0){
     cout << "Proti utok.\n";
-    player_life = player_life - opfor_attack;
-    cout << "OPFOR life: " << opfor_life << endl;
-}while(player_life>0&&opfor_life>0);
-if (player_life <= 0){
-    cout << "Srdecni puls: 0 BPM \n";
-    cout << "Nenalezena zadna mozkova aktivita.\n";
-    cout << "Uzivatel mrtev, cekani na reset.\n";
-}
-else if(opfor_life <= 0){
-    cout << "OPFOR byl porazen.";
-}
+    player.life = player.life - opfor.damage;
+    cout << "- " << opfor.damage << " hp\n";
+    }
 
-
-
-
-
+}while(player.life>0&&opfor.life>0);
+player_defeat(player.life);
 return 0;
 }
-//SYSTEM PART
-
-//pokracovani
-bool pokracovani(int current_ammo, int ammo_usage){
-    bool pokracovani = true;
-    if (current_ammo - ammo_usage < 0){
-        pokracovani = false;
+void manual(){
+cout << "Manual: \n";
+cout << "Spray - zakladni utok bez mireni. Vystrelis 10 kulek a budes doufat, ze neco zasahnes. (- 10 ammo, 10 damage) \n";
+cout << "Aim - zakladni utok s mireni. Vystrelis 20 kulek a zasadis nepriteli dvojnasobek ran. (- 20 ammo, 2 X 10 damage) \n";
+cout << "Heal - zakladni leceni. Vytahnes lekarnicku a vylecis se. (+ 10 health points) \n";
+cout << "Reload - zakladni prebiti. Prebijes si zasobnik. (+ 10 ammo) \n";
+cout << "\n";
+}
+void player_defeat(int player_life){
+    if (player_life<=0){
+        cout << endl;
+        cout << "Srdecni puls: 0 BPM \n";
+        cout << "Nenalezena zadna mozkova aktivita.\n";
+        cout << "Uzivatel mrtev, cekani na reset.\n";
     }
-    else if (current_ammo - ammo_usage >= 0){
-        pokracovani = true;
+    else {
+        cout << "OPFOR byl porazen.\n";
     }
-    return pokracovani;
 }
-
-//PLAYER PART
-
-//player ammo
-int ammo_count(int current_ammo, int ammo_usage){
-
-}
-
-
-
-//player health
-float player_health(float current_player_life, float dealt_damage, float class_advantages = 1, float upgrade_advantages = 1){
-
-}
-
-//player damage
-float player_damage(){
-
-}
-
-//OPFOR PART
-
-
-//OPFOR life
-float opfor_life(){
-
-}
-
-//OPFOR damage
-float opfor_damage(){
-
-}
-
-//Random
-
-int random(){
-srand(time(0));
-int random = rand() % 2;
-return random;
-}
-
-
-
