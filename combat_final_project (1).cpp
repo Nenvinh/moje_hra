@@ -5,9 +5,10 @@
 using namespace std;
 
 void player_defeat(int player_life, int opfor_life);
-void manual();
+void manual(bool promena = true);
 int random_num();
 void nastavBarvu(int barva);
+bool enough(int ammo_usage, int ammo_count);
 
 int main (){
 //player
@@ -55,8 +56,6 @@ int fumble = 0;
 do{
     nastavBarvu(10);
     cout << "-------------------------------------------------------FRIENDLY ACTIONS-------------------------------------------------"<<endl;
-    do{
-    opakovani = false;
     string utok;
     cout << "Player stats: \n";
     cout << "Player life: " << player.life << " hp" << endl;
@@ -70,40 +69,49 @@ do{
     cout << "\n";
     nastavBarvu(7);
     manual();
+    for (int i = 1; i<=3; i++){
     cout << "Vyber si akci (spray, aim, reload, heal): ";
     cin >> utok;
     if (utok == "spray"){
-      opfor.life = opfor.life - player.attack;
-      cout << "\n";
-      cout << "Zacal jsi strilet na nepritele, - " << player.attack << " dmg.\n";
-      opakovani = true;
+        player.ammo_usage = 10;
+        enough(player.ammo_usage, player.ammo);
+        //kdyz je dostatek naboju
+        player.ammo = player.ammo - player.ammo_usage;
+        opfor.life = opfor.life - player.attack;
+        cout << "\n";
+        cout << "Zacal jsi strilet na nepritele, - " << player.attack << " dmg.\n";
+        cout << "Vyuzil jsi: " << "- " << player.ammo_usage << " naboju.\n";
+        i = 3;
     }
     else if(utok == "aim"){
+        player.ammo_usage_heavy = 15;
+        enough(player.ammo_usage_heavy, player.ammo);
+        //pokud je dostatek munice
+        player.ammo = player.ammo - player.ammo_usage_heavy;
         opfor.life = opfor.life - player.heavy_attack;
         cout << "\n";
         cout << "Zamiril jsi na nepritele a strilel, - " << player.heavy_attack << " dmg.\n";
-        opakovani = true;
+        cout << "Vyuzil jsi: " << "- " << player.ammo_usage_heavy << " naboju.\n";
+        i = 3;
     }
     else if(utok == "reload"){
         player.ammo = player.ammo + player.ammo_gain;
         cout << "\n";
         cout << "Prebij jsi zasobnik, + " << player.ammo_gain << " munice\n";
-        opakovani = true;
     }
     else if(utok == "heal"){
         player.life = player.life + 5;
         cout << "\n";
         cout << "Vylecil ses, + " << player.heal * player.heal_upgrade << " hp\n";
-        opakovani = true;
     }
     else {
         player.life = player.life * 0.5;
         cout << "\n";
         cout << "Zpanikaril jsi a nepritel te zasahl, - " << player.life << " hp.\n";
-        opakovani = true;
+        i = 3;
+    }
     }
 
-    }while(opakovani = false);
 
     cout << "OPFOR life: " << opfor.life << endl;
 
@@ -120,13 +128,15 @@ player_defeat(player.life, opfor.life);
 return 0;
 }
 
-void manual(){
-cout << "Manual: \n";
-cout << "Spray - zakladni utok bez mireni. Vystrelis 10 kulek a budes doufat, ze neco zasahnes. (- 10 ammo, 10 damage) \n";
-cout << "Aim - zakladni utok s mireni. Vystrelis 20 kulek a zasadis nepriteli dvojnasobek ran. (- 20 ammo, 2 X 10 damage) \n";
-cout << "Heal - zakladni leceni. Vytahnes lekarnicku a vylecis se. (+ 10 health points) \n";
-cout << "Reload - zakladni prebiti. Prebijes si zasobnik. (+ 10 ammo) \n";
-cout << "\n";
+void manual(bool promena){
+    if (promena = true){
+        cout << "Manual: \n";
+        cout << "Spray - zakladni utok bez mireni. Vystrelis 10 kulek a budes doufat, ze neco zasahnes. (- 10 ammo, 10 damage) \n";
+        cout << "Aim - zakladni utok s mireni. Vystrelis 20 kulek a zasadis nepriteli dvojnasobek ran. (- 20 ammo, 2 X 10 damage) \n";
+        cout << "Heal - zakladni leceni. Vytahnes lekarnicku a vylecis se. (+ 10 health points) \n";
+        cout << "Reload - zakladni prebiti. Prebijes si zasobnik. (+ 10 ammo) \n";
+        cout << "\n";
+    }
 }
 
 void player_defeat(int player_life, int opfor_life){
@@ -156,4 +166,16 @@ int random_num(){
     srand(time(0));  // Inicializace generátoru
     int random = rand() % 100 + 1;  // Èíslo v rozmezí 1-100
     return random;
+}
+
+bool enough(int ammo_usage, int ammo_count){
+bool pokracovani;
+ammo_count = ammo_count - ammo_usage;
+if (ammo_count>=0){
+  pokracovani = true;
+}
+else{
+    pokracovani = false;
+}
+return pokracovani;
 }
