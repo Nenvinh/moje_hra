@@ -14,12 +14,14 @@ int main (){
 //player
 struct{
     string jmeno;
+
+    string schopnosti;
     float life = 200;
     float attack = 10;
 
     float heavy_attack = attack * 2;
 
-    int ammo = 50;
+    int ammo = 5;
     int ammo_usage = 10;
     int ammo_usage_heavy = 15;
     int ammo_gain = 20;
@@ -74,18 +76,40 @@ do{
     cin >> utok;
     if (utok == "spray"){
         player.ammo_usage = 10;
-        enough(player.ammo_usage, player.ammo);
-        //kdyz je dostatek naboju
-        player.ammo = player.ammo - player.ammo_usage;
-        opfor.life = opfor.life - player.attack;
-        cout << "\n";
-        cout << "Zacal jsi strilet na nepritele, - " << player.attack << " dmg.\n";
-        cout << "Vyuzil jsi: " << "- " << player.ammo_usage << " naboju.\n";
-        i = 3;
+        switch(enough(player.ammo_usage, player.ammo)){
+        case 0:
+            cout << "\n";
+            nastavBarvu(4);
+            cout << "Stiskl jsi spoust a zbran nevystrelila, nemas dostatek munice.\n";
+            nastavBarvu(7);
+            cout << "\n";
+            break;
+        case 1:
+            //kdyz je dostatek naboju
+            player.ammo = player.ammo - player.ammo_usage;
+            opfor.life = opfor.life - player.attack;
+            cout << "\n";
+            cout << "Zacal jsi strilet na nepritele, - " << player.attack << " dmg.\n";
+            cout << "Vyuzil jsi: " << "- " << player.ammo_usage << " naboju.\n";
+            i = 3;
+            break;
+        default:
+            cout << "Error - spray_switch line 83.\n";
+            break;
+
+    };
     }
     else if(utok == "aim"){
         player.ammo_usage_heavy = 15;
-        enough(player.ammo_usage_heavy, player.ammo);
+        switch(enough(player.ammo_usage_heavy, player.ammo)){
+        case 0:
+            cout << "\n";
+            nastavBarvu(4);
+            cout << "Zamiril jsi a stiskl spoust, zjistil jsi, ze nemas dostatek munice\n";
+            nastavBarvu(7);
+            cout << "\n";
+            break;
+        case 1:
         //pokud je dostatek munice
         player.ammo = player.ammo - player.ammo_usage_heavy;
         opfor.life = opfor.life - player.heavy_attack;
@@ -93,16 +117,19 @@ do{
         cout << "Zamiril jsi na nepritele a strilel, - " << player.heavy_attack << " dmg.\n";
         cout << "Vyuzil jsi: " << "- " << player.ammo_usage_heavy << " naboju.\n";
         i = 3;
+        };
     }
     else if(utok == "reload"){
         player.ammo = player.ammo + player.ammo_gain;
         cout << "\n";
         cout << "Prebij jsi zasobnik, + " << player.ammo_gain << " munice\n";
+        i = 3;
     }
     else if(utok == "heal"){
         player.life = player.life + 5;
         cout << "\n";
         cout << "Vylecil ses, + " << player.heal * player.heal_upgrade << " hp\n";
+        i = 3;
     }
     else {
         player.life = player.life * 0.5;
@@ -149,7 +176,9 @@ void player_defeat(int player_life, int opfor_life){
     }
     else if (opfor_life<0){
         nastavBarvu(7);
+        cout << "\n";
         cout << "OPFOR byl porazen, zbylo z neho jen kaluz krve.\n";
+        cout << "\n";
     }
     else {
         nastavBarvu(7);
