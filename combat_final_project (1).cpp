@@ -16,27 +16,23 @@ struct{
     string jmeno;
 
     string schopnosti;
-    float life = 200;
-    float attack = 10;
+    int life = 24 + life_upgrade;
+    int attack = 10 + attack_upgrade; // all attack
 
-    float heavy_attack = attack * 2;
+    int heavy_attack = attack * 2;
 
-    int ammo = 5;
+    int ammo = 50 + ammo_upgrade;
     int ammo_usage = 10;
-    int ammo_usage_heavy = 15;
-    int ammo_gain = 20;
+    int ammo_usage_heavy = ammo_usage * 1.5;
+    int ammo_gain = 10;
+    int armour = 0;
 
+    int heal = 5;
     int level = 1;
+    int attack_upgrade = 0;
+    int life_upgrade = 0;
+    int ammo_upgrade = 0;
 
-    float armour = 1;
-    float heal = 5;
-    float heal_upgrade = 1;
-    float life_upgrade = 1;
-    float damage_upgrade = 1;
-
-    float price = 1;
-    int cash = 5;
-    float cash_gain = 1;
     int inventory[3]{0, 0, 0};
 }player;
 
@@ -75,7 +71,6 @@ do{
     cout << "Vyber si akci (spray, aim, reload, heal): ";
     cin >> utok;
     if (utok == "spray"){
-        player.ammo_usage = 10;
         switch(enough(player.ammo_usage, player.ammo)){
         case 0:
             cout << "\n";
@@ -100,7 +95,6 @@ do{
     };
     }
     else if(utok == "aim"){
-        player.ammo_usage_heavy = 15;
         switch(enough(player.ammo_usage_heavy, player.ammo)){
         case 0:
             cout << "\n";
@@ -126,9 +120,9 @@ do{
         i = 3;
     }
     else if(utok == "heal"){
-        player.life = player.life + 5;
+        player.life = player.life + player.heal;
         cout << "\n";
-        cout << "Vylecil ses, + " << player.heal * player.heal_upgrade << " hp\n";
+        cout << "Vylecil ses, + " << player.heal << " hp\n";
         i = 3;
     }
     else {
@@ -146,19 +140,21 @@ do{
     if (opfor.life >0){
     cout << "--------------------------------------------------------ENEMY ACTIONS---------------------------------------------------"<<endl;
     cout << "Nepritel na tebe zautocil.\n";
-    player.life = player.life - (opfor.damage * player.armour);
+    player.life = player.life - (opfor.damage - player.armour);
     cout << "- " << opfor.damage << " hp\n";
     }
 
 }while(player.life>0&&opfor.life>0);
 player_defeat(player.life, opfor.life);
+
+
 return 0;
 }
 
 void manual(bool promena){
     if (promena = true){
         cout << "Manual: \n";
-        cout << "Spray - zakladni utok bez mireni. Vystrelis 10 kulek a budes doufat, ze neco zasahnes. (- 10 ammo, 10 damage) \n";
+        cout << "Spray - zakladni utok bez mireni. Stisknes spoust a budes doufat, ze neco zasahnes. (- 10 ammo, 10 damage) \n";
         cout << "Aim - zakladni utok s mireni. Vystrelis 20 kulek a zasadis nepriteli dvojnasobek ran. (- 20 ammo, 2 X 10 damage) \n";
         cout << "Heal - zakladni leceni. Vytahnes lekarnicku a vylecis se. (+ 10 health points) \n";
         cout << "Reload - zakladni prebiti. Prebijes si zasobnik. (+ 10 ammo) \n";
@@ -208,3 +204,5 @@ else{
 }
 return pokracovani;
 }
+
+
