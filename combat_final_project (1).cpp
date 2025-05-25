@@ -9,6 +9,7 @@ void manual(bool promena = true);
 int random_num();
 void nastavBarvu(int barva);
 bool enough(int ammo_usage, int ammo_count);
+void market(string jmeno, int life, int ammo_gain, int armour, int heal, int attack);
 
 int main (){
 //player
@@ -16,12 +17,12 @@ struct{
     string jmeno;
 
     string schopnosti;
-    int life = 24 + life_upgrade;
-    int attack = 10 + attack_upgrade; // all attack
+    int life = 24;
+    int attack = 10; // all attack
 
     int heavy_attack = attack * 2;
 
-    int ammo = 50 + ammo_upgrade;
+    int ammo = 50;
     int ammo_usage = 10;
     int ammo_usage_heavy = ammo_usage * 1.5;
     int ammo_gain = 10;
@@ -29,9 +30,7 @@ struct{
 
     int heal = 5;
     int level = 1;
-    int attack_upgrade = 0;
-    int life_upgrade = 0;
-    int ammo_upgrade = 0;
+
 
     int inventory[3]{0, 0, 0};
 }player;
@@ -125,6 +124,11 @@ do{
         cout << "Vylecil ses, + " << player.heal << " hp\n";
         i = 3;
     }
+    else if(utok == "skip"){
+        opfor.life = 0;
+        i = 3;
+        cout << "                                                  Skipping fight\n";
+    }
     else {
         player.life = player.life * 0.5;
         cout << "\n";
@@ -146,18 +150,97 @@ do{
 
 }while(player.life>0&&opfor.life>0);
 player_defeat(player.life, opfor.life);
-
+market(player.jmeno, player.life, player.ammo_gain, player.armour, player.heal, player.attack);
 
 return 0;
+}
+
+void market(string jmeno, int life, int ammo_gain, int armour, int heal, int attack){
+cout << "\n";
+cout << "Dostupna nabidka:\n";
+switch(life){
+case 24:
+    cout << "Vylepseni zivoty 1, cena: \n";
+    break;
+case 30:
+    cout << "Vylepseni zivoty 1, cena: \n";
+    break;
+case 36:
+    cout << "Vylepseni zivoty 1, cena: \n";
+    break;
+}
+switch(ammo_gain){
+case 10:
+    cout << "Vylepseni zivoty 1, cena: \n";
+    break;
+case 15:
+    cout << "Vylepseni zivoty 1, cena: \n";
+    break;
+case 20:
+    cout << "Vylepseni zivoty 1, cena: \n";
+    break;
+}
+switch(armour){
+case 0:
+    cout << "Vylepseni zivoty 1, cena: \n";
+    break;
+case 10:
+    cout << "Vylepseni zivoty 1, cena: \n";
+    break;
+case 20:
+    cout << "Vylepseni zivoty 1, cena: \n";
+    break;
+}
+switch(heal){
+case 5:
+    cout << "Vylepseni zivoty 1, cena: \n";
+    break;
+case 10:
+    cout << "Vylepseni zivoty 1, cena: \n";
+    break;
+case 15:
+    cout << "Vylepseni zivoty 1, cena: \n";
+    break;
+}
+switch(attack){
+case 24:
+    cout << "Vylepseni zivoty 1, cena: \n";
+    break;
+case 30:
+    cout << "Vylepseni zivoty 1, cena: \n";
+    break;
+case 36:
+    cout << "Vylepseni zivoty 1, cena: \n";
+    break;
+}
+/*string jmeno;
+
+    string schopnosti;
+    int life = 24 + life_upgrade;
+    int attack = 10 + attack_upgrade; // all attack
+
+    int heavy_attack = attack * 2;
+
+    int ammo = 50 + ammo_upgrade;
+    int ammo_usage = 10;
+    int ammo_usage_heavy = ammo_usage * 1.5;
+    int ammo_gain = 10;
+    int armour = 0;
+
+    int heal = 5;
+    int level = 1;
+    int attack_upgrade = 0;
+    int life_upgrade = 0;
+    int ammo_upgrade = 0;*/
 }
 
 void manual(bool promena){
     if (promena = true){
         cout << "Manual: \n";
-        cout << "Spray - zakladni utok bez mireni. Stisknes spoust a budes doufat, ze neco zasahnes. (- 10 ammo, 10 damage) \n";
-        cout << "Aim - zakladni utok s mireni. Vystrelis 20 kulek a zasadis nepriteli dvojnasobek ran. (- 20 ammo, 2 X 10 damage) \n";
-        cout << "Heal - zakladni leceni. Vytahnes lekarnicku a vylecis se. (+ 10 health points) \n";
-        cout << "Reload - zakladni prebiti. Prebijes si zasobnik. (+ 10 ammo) \n";
+        cout << "Spray - zakladni utok bez mireni. Stisknes spoust a budes doufat, ze neco zasahnes. \n";
+        cout << "Aim - zakladni utok s mireni. Vystrelis 20 kulek a zasadis nepriteli dvojnasobek ran. \n";
+        cout << "Heal - zakladni leceni. Vytahnes lekarnicku a vylecis se. \n";
+        cout << "Reload - zakladni prebiti. Prebijes si zasobnik. \n";
         cout << "\n";
     }
 }
