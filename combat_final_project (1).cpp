@@ -18,11 +18,13 @@ struct{
 
     string schopnosti;
     int life = 24;
+    int max_life = 24;
     int attack = 10; // all attack
 
     int heavy_attack = attack * 2;
 
     int ammo = 50;
+    int max_ammo = 50;
     int ammo_usage = 10;
     int ammo_usage_heavy = ammo_usage * 1.5;
     int ammo_gain = 10;
@@ -30,7 +32,9 @@ struct{
 
     int heal = 5;
     int level = 1;
-
+    int cash = 10;
+    int item_price = 0;
+    string nakup;
 
     int inventory[3]{0, 0, 0};
 }player;
@@ -114,15 +118,31 @@ do{
     }
     else if(utok == "reload"){
         player.ammo = player.ammo + player.ammo_gain;
-        cout << "\n";
-        cout << "Prebij jsi zasobnik, + " << player.ammo_gain << " munice\n";
-        i = 3;
+        if (player.ammo<=player.max_ammo){
+            cout << "\n";
+            cout << "Prebij jsi zasobnik, + " << player.ammo_gain << " munice\n";
+            i = 3;
+        }
+        else{
+            cout << "\n";
+            cout << "Mas dostatek munice, nedokazes nest vice munice.\n";
+            player.ammo = player.ammo - player.ammo_gain;
+            cout << "\n";
+        }
     }
     else if(utok == "heal"){
         player.life = player.life + player.heal;
-        cout << "\n";
-        cout << "Vylecil ses, + " << player.heal << " hp\n";
-        i = 3;
+        if(player.life <= player.max_life){
+            cout << "\n";
+            cout << "Vylecil ses, + " << player.heal << " hp\n";
+            i = 3;
+        }
+        else{
+            player.life = player.life - player.heal;
+            cout << "\n";
+            cout << "Nejsi zraneni, nemuzes se vylecit.\n";
+            cout << "\n";
+        }
     }
     else if(utok == "skip"){
         opfor.life = 0;
@@ -150,7 +170,14 @@ do{
 
 }while(player.life>0&&opfor.life>0);
 player_defeat(player.life, opfor.life);
-market(player.jmeno, player.life, player.ammo_gain, player.armour, player.heal, player.attack);
+do{
+ market(player.jmeno, player.life, player.ammo_gain, player.armour, player.heal, player.attack);
+
+
+
+ cout << "Rozhodnuti: ";
+ cin >> player.nakup;
+}while(player.nakup != "odejit");
 
 return 0;
 }
@@ -160,59 +187,59 @@ cout << "\n";
 cout << "Dostupna nabidka:\n";
 switch(life){
 case 24:
-    cout << "Vylepseni zivoty 1, cena: \n";
+    cout << "   Vylepseni zivoty 1, cena: \n";
     break;
 case 30:
-    cout << "Vylepseni zivoty 1, cena: \n";
+    cout << "   Vylepseni zivoty 1, cena: \n";
     break;
 case 36:
-    cout << "Vylepseni zivoty 1, cena: \n";
+    cout << "   Vylepseni zivoty 1, cena: \n";
     break;
 }
 switch(ammo_gain){
 case 10:
-    cout << "Vylepseni zivoty 1, cena: \n";
+    cout << "   Mag extention (+ 15 munice pri reload), cena: 8k $\n";
     break;
 case 15:
-    cout << "Vylepseni zivoty 1, cena: \n";
+    cout << "   Drum Mag (+ 20 munice pri reload), cena: 16k $\n";
     break;
 case 20:
-    cout << "Vylepseni zivoty 1, cena: \n";
+    cout << "   Ammo box (+ 25 munice pri reload), cena: 24k $\n";
     break;
 }
 switch(armour){
 case 0:
-    cout << "Vylepseni zivoty 1, cena: \n";
+    cout << "   Neprustrelna vesta I. tridy (dmg obdrzeny od nepritele snizeny - 10), cena: 15k $\n";
     break;
 case 10:
-    cout << "Vylepseni zivoty 1, cena: \n";
+    cout << "   Neprustrelna vesta II. tridy (dmg obdrzeny od nepritele snizeny - 20), cena: 28k $\n";
     break;
 case 20:
-    cout << "Vylepseni zivoty 1, cena: \n";
+    cout << "   Neprustrelna vesta III. tridy (dmg obdrzeny od nepritele snizeny - 30), cena: 36k $\n";
     break;
 }
 switch(heal){
 case 5:
-    cout << "Vylepseni zivoty 1, cena: \n";
+    cout << "   Field manual 0856: Zaklady osetrovatelstvi (+ 10 hp pri heal), cena: 8k $\n";
     break;
 case 10:
-    cout << "Vylepseni zivoty 1, cena: \n";
+    cout << "   Field manual 0857: Osetrovatelství pro vojenske lekare (+ 15 hp pri heal), cena: 14k $\n";
     break;
 case 15:
-    cout << "Vylepseni zivoty 1, cena: \n";
+    cout << "   Field manual 0858: Osetrovatelstvi pro vojenske chirurky (+ 20 hp pri heal), cena: 20k $\n";
     break;
 }
-switch(attack){
-case 24:
-    cout << "Vylepseni zivoty 1, cena: \n";
+/*switch(true){
+case (attack >=10):
+    cout << "MP5k (laser sight, lase), cena: 10k $\n";
     break;
-case 30:
-    cout << "Vylepseni zivoty 1, cena: \n";
+case (attack >=25):
+    cout << "M4A1 (laser sight, flash hider, vertical grip), cena: 25k $\n";
     break;
-case 36:
-    cout << "Vylepseni zivoty 1, cena: \n";
+case (attack >=40):
+    cout << "PKM (na boku napsano: Raw dog it), cena: 40k $\n";
     break;
-}
+}*/
 /*string jmeno;
 
     string schopnosti;
@@ -287,5 +314,4 @@ else{
 }
 return pokracovani;
 }
-
 
