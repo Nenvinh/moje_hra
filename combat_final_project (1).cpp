@@ -9,7 +9,7 @@ void manual(bool promena = true);
 int random_num();
 void nastavBarvu(int barva);
 bool enough(int ammo_usage, int ammo_count);
-void market(string jmeno, int life, int ammo_gain, int armour, int heal, int attack);
+void market(string jmeno, int life, int ammo_gain, int armour, int heal, int attack, int level);
 
 int main (){
 //player
@@ -23,8 +23,8 @@ struct{
 
     int heavy_attack = attack * 2;
 
-    int ammo = 50;
-    int max_ammo = 50;
+    int ammo = 30;
+    int max_ammo = 30;
     int ammo_usage = 10;
     int ammo_usage_heavy = ammo_usage * 1.5;
     int ammo_gain = 10;
@@ -171,75 +171,96 @@ do{
 }while(player.life>0&&opfor.life>0);
 player_defeat(player.life, opfor.life);
 do{
- market(player.jmeno, player.life, player.ammo_gain, player.armour, player.heal, player.attack);
-
-
-
- cout << "Rozhodnuti: ";
+market(player.jmeno, player.max_life, player.ammo_gain, player.armour, player.heal, player.attack, player.level);
+cout << "Rozhodnuti: ";
  cin >> player.nakup;
+if(player.nakup == "life"){
+    cout << "life_section_be_made\n";
+}
+else if(player.nakup == "reload"){
+    cout << "reload_section_be_made\n";
+}
+else if(player.nakup == "armour"){
+    cout << "armour_section_be_made\n";
+}
+else if(player.nakup == "heal"){
+    cout << "heal_section_be_made\n";
+}
+else if(player.nakup == "damage"){
+    cout << "damage_section_be_made\n";
+}
+else if(player.nakup == "odejit"){
+    cout << "Rozhodl ses odejit.\n";
+}
 }while(player.nakup != "odejit");
 
 return 0;
 }
 
-void market(string jmeno, int life, int ammo_gain, int armour, int heal, int attack){
+void market(string jmeno, int life, int ammo_gain, int armour, int heal, int attack, int level){
 cout << "\n";
 cout << "Dostupna nabidka:\n";
+cout << "   life: ";
 switch(life){
 case 24:
-    cout << "   Vylepseni zivoty 1, cena: \n";
+    cout << "Leky proti bolesti (+ 10 hp), cena: 12k $\n";
     break;
 case 30:
-    cout << "   Vylepseni zivoty 1, cena: \n";
+    cout << "Adrenalin (+ 15 hp), cena: 16k $\n";
     break;
 case 36:
-    cout << "   Vylepseni zivoty 1, cena: \n";
+    cout << "4EA1 - experimental (+ 20 hp), cena: 20k $\n";
     break;
 }
+cout << "   reload: ";
 switch(ammo_gain){
 case 10:
-    cout << "   Mag extention (+ 15 munice pri reload), cena: 8k $\n";
+    cout << "Mag extention (+ 15 munice pri reload), cena: 8k $\n";
     break;
 case 15:
-    cout << "   Drum Mag (+ 20 munice pri reload), cena: 16k $\n";
+    cout << "Drum Mag (+ 20 munice pri reload), cena: 16k $\n";
     break;
 case 20:
-    cout << "   Ammo box (+ 25 munice pri reload), cena: 24k $\n";
+    cout << "Ammo box (+ 25 munice pri reload), cena: 24k $\n";
     break;
 }
+cout << "   armour: ";
 switch(armour){
 case 0:
-    cout << "   Neprustrelna vesta I. tridy (dmg obdrzeny od nepritele snizeny - 10), cena: 15k $\n";
+    cout << "Neprustrelna vesta I. tridy (dmg obdrzeny od nepritele snizeny - 10), cena: 15k $\n";
     break;
 case 10:
-    cout << "   Neprustrelna vesta II. tridy (dmg obdrzeny od nepritele snizeny - 20), cena: 28k $\n";
+    cout << "Neprustrelna vesta II. tridy (dmg obdrzeny od nepritele snizeny - 20), cena: 28k $\n";
     break;
 case 20:
-    cout << "   Neprustrelna vesta III. tridy (dmg obdrzeny od nepritele snizeny - 30), cena: 36k $\n";
+    cout << "Neprustrelna vesta III. tridy (dmg obdrzeny od nepritele snizeny - 30), cena: 36k $\n";
     break;
 }
+cout << "   heal: ";
 switch(heal){
 case 5:
-    cout << "   Field manual 0856: Zaklady osetrovatelstvi (+ 10 hp pri heal), cena: 8k $\n";
+    cout << "Field manual 0856: Zaklady osetrovatelstvi (+ 10 hp pri heal), cena: 8k $\n";
     break;
 case 10:
-    cout << "   Field manual 0857: Osetrovatelství pro vojenske lekare (+ 15 hp pri heal), cena: 14k $\n";
+    cout << "Field manual 0857: Osetrovatelství pro vojenske lekare (+ 15 hp pri heal), cena: 14k $\n";
     break;
 case 15:
-    cout << "   Field manual 0858: Osetrovatelstvi pro vojenske chirurky (+ 20 hp pri heal), cena: 20k $\n";
+    cout << "Field manual 0858: Osetrovatelstvi pro vojenske chirurky (+ 20 hp pri heal), cena: 20k $\n";
     break;
 }
-/*switch(true){
-case (attack >=10):
+cout << "   damage: ";
+switch(attack){
+case 10:
     cout << "MP5k (laser sight, lase), cena: 10k $\n";
     break;
-case (attack >=25):
+case 25:
     cout << "M4A1 (laser sight, flash hider, vertical grip), cena: 25k $\n";
     break;
-case (attack >=40):
+case 40:
     cout << "PKM (na boku napsano: Raw dog it), cena: 40k $\n";
     break;
-}*/
+}
+cout << "Odejit - Odejdes ze zakladny.\n";
 /*string jmeno;
 
     string schopnosti;
