@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cstdlib> // knihovna pro random
 #include <ctime> // knihovna pro unique num
-#include <windows.h>
+#include <windows.h> // knihovna pro barvy textu
 using namespace std;
 
 void player_defeat(int player_life, int opfor_life);
@@ -10,11 +10,13 @@ int random_num();
 void nastavBarvu(int barva);
 bool enough(int ammo_usage, int ammo_count);
 void market(string jmeno, int life, int ammo_gain, int armour, int heal, int attack, int level);
+int take_money(int cena, int penize);
+void status_check(int life, int attack, int armour, int reload, int heal, int level, string jmeno);
 
 int main (){
 //player
 struct{
-    string jmeno;
+    string jmeno = "Random_placeholder_name";
 
     string schopnosti;
     int life = 24;
@@ -32,9 +34,9 @@ struct{
 
     int heal = 5;
     int level = 1;
-    int cash = 10;
-    int item_price = 0;
+    int cash = 120;
     string nakup;
+    int price = 0;
 
     int inventory[3]{0, 0, 0};
 }player;
@@ -171,28 +173,286 @@ do{
 }while(player.life>0&&opfor.life>0);
 player_defeat(player.life, opfor.life);
 do{
+cout << "\n";
+cout << "Dorazil jsi na vojenskou zakladnu. Zakladna Foxtrox Whiskey, otevreno pro obchod.\n";
+cout << "\n";
+status_check(player.max_life, player.attack, player.armour, player.ammo_gain, player.heal, player.level, player.jmeno);
 market(player.jmeno, player.max_life, player.ammo_gain, player.armour, player.heal, player.attack, player.level);
+
+
+cout << "Penize: " << player.cash << "k $"<< endl;
 cout << "Rozhodnuti: ";
- cin >> player.nakup;
+cin >> player.nakup;
+
 if(player.nakup == "life"){
+    switch(player.max_life){
+        case 24:
+            player.price = 12;
+            if (enough(player.price, player.cash) == 1){
+                player.cash = take_money(player.price, player.cash);
+                nastavBarvu(10);
+                cout << "Nakup probehl.\n";
+                cout << "\n";
+                nastavBarvu(7);
+            }
+            else{
+                nastavBarvu(4);
+                cout << "Nakup neprobehl.\n";
+                nastavBarvu(7);
+            }
+        break;
+        case 30:
+            player.price = 16;
+            if (enough(player.price, player.cash) == 1){
+                player.cash = take_money(player.price, player.cash);
+                nastavBarvu(10);
+                cout << "Nakup probehl.\n";
+                cout << "\n";
+                nastavBarvu(7);
+            }
+            else{
+                nastavBarvu(4);
+                cout << "Nakup neprobehl.\n";
+                nastavBarvu(7);
+            }
+
+        break;
+        case 36:
+            player.price = 20;
+            if (enough(player.price, player.cash) == 1){
+                player.cash = take_money(player.price, player.cash);
+                nastavBarvu(10);
+                cout << "Nakup probehl.\n";
+                cout << "\n";
+                nastavBarvu(7);
+            }
+            else{
+                nastavBarvu(4);
+                cout << "Nakup neprobehl.\n";
+                nastavBarvu(7);
+            }
+        break;
+        default:
+            cout << "Life_error.\n";
+}
     cout << "life_section_be_made\n";
 }
+
 else if(player.nakup == "reload"){
+    switch(player.ammo_gain){
+        case 10:
+            player.price = 8;
+            if (enough(player.price, player.cash) == 1){
+                player.cash = take_money(player.price, player.cash);
+                nastavBarvu(10);
+                cout << "Nakup probehl.\n";
+                cout << "\n";
+                nastavBarvu(7);
+            }
+            else{
+                nastavBarvu(4);
+                cout << "Nakup neprobehl.\n";
+                nastavBarvu(7);
+            }
+        break;
+        case 15:
+            player.price = 16;
+            if (enough(player.price, player.cash) == 1){
+                player.cash = take_money(player.price, player.cash);
+                nastavBarvu(10);
+                cout << "Nakup probehl.\n";
+                cout << "\n";
+                nastavBarvu(7);
+            }
+            else{
+                nastavBarvu(4);
+                cout << "Nakup neprobehl.\n";
+                nastavBarvu(7);
+            }
+        break;
+        case 20:
+            player.price = 24;
+            if (enough(player.price, player.cash) == 1){
+                player.cash = take_money(player.price, player.cash);
+                nastavBarvu(10);
+                cout << "Nakup probehl.\n";
+                cout << "\n";
+                nastavBarvu(7);
+            }
+            else{
+                nastavBarvu(4);
+                cout << "Nakup neprobehl.\n";
+                nastavBarvu(7);
+            }
+        break;
+}
+
     cout << "reload_section_be_made\n";
 }
+
 else if(player.nakup == "armour"){
+    switch(player.armour){
+        case 0:
+            player.price = 15;
+            if (enough(player.price, player.cash) == 1){
+                player.cash = take_money(player.price, player.cash);
+                nastavBarvu(10);
+                cout << "Nakup probehl.\n";
+                cout << "\n";
+                nastavBarvu(7);
+            }
+            else{
+                nastavBarvu(4);
+                cout << "Nakup neprobehl.\n";
+                nastavBarvu(7);
+            }
+        break;
+        case 10:
+            player.price = 28;
+            if (enough(player.price, player.cash) == 1){
+                player.cash = take_money(player.price, player.cash);
+                nastavBarvu(10);
+                cout << "Nakup probehl.\n";
+                cout << "\n";
+                nastavBarvu(7);
+            }
+            else{
+                nastavBarvu(4);
+                cout << "Nakup neprobehl.\n";
+                nastavBarvu(7);
+            }
+        break;
+        case 20:
+            player.price = 15;
+            if (enough(player.price, player.cash) == 1){
+                player.cash = take_money(player.price, player.cash);
+                nastavBarvu(10);
+                cout << "Nakup probehl.\n";
+                cout << "\n";
+                nastavBarvu(7);
+            }
+            else{
+                nastavBarvu(4);
+                cout << "Nakup neprobehl.\n";
+                nastavBarvu(7);
+            }
+        break;
+}
     cout << "armour_section_be_made\n";
 }
+
 else if(player.nakup == "heal"){
+    switch(player.heal){
+        case 5:
+            player.price = 8;
+            if (enough(player.price, player.cash) == 1){
+                player.cash = take_money(player.price, player.cash);
+                nastavBarvu(10);
+                cout << "Nakup probehl.\n";
+                cout << "\n";
+                nastavBarvu(7);
+            }
+            else{
+                nastavBarvu(4);
+                cout << "Nakup neprobehl.\n";
+                nastavBarvu(7);
+            }
+        break;
+        case 10:
+            player.price = 14;
+            if (enough(player.price, player.cash) == 1){
+                player.cash = take_money(player.price, player.cash);
+                nastavBarvu(10);
+                cout << "Nakup probehl.\n";
+                cout << "\n";
+                nastavBarvu(7);
+            }
+            else{
+                nastavBarvu(4);
+                cout << "Nakup neprobehl.\n";
+                nastavBarvu(7);
+            }
+        break;
+        case 15:
+            player.price = 20;
+            if (enough(player.price, player.cash) == 1){
+                player.cash = take_money(player.price, player.cash);
+                nastavBarvu(10);
+                cout << "Nakup probehl.\n";
+                cout << "\n";
+                nastavBarvu(7);
+            }
+            else{
+                nastavBarvu(4);
+                cout << "Nakup neprobehl.\n";
+                nastavBarvu(7);
+            }
+        break;
+}
     cout << "heal_section_be_made\n";
 }
+
 else if(player.nakup == "damage"){
+    switch(player.attack){
+        case 10:
+            player.price = 10;
+            if (enough(player.price, player.cash) == 1){
+                player.cash = take_money(player.price, player.cash);
+                nastavBarvu(10);
+                cout << "Nakup probehl.\n";
+                cout << "\n";
+                nastavBarvu(7);
+            }
+            else{
+                nastavBarvu(4);
+                cout << "Nakup neprobehl.\n";
+                nastavBarvu(7);
+            }
+        break;
+        case 25:
+            player.price = 25;
+            if (enough(player.price, player.cash) == 1){
+                player.cash = take_money(player.price, player.cash);
+                nastavBarvu(10);
+                cout << "Nakup probehl.\n";
+                cout << "\n";
+                nastavBarvu(7);
+            }
+            else{
+                nastavBarvu(4);
+                cout << "Nakup neprobehl.\n";
+                nastavBarvu(7);
+            }
+        break;
+        case 40:
+            player.price = 40;
+            if (enough(player.price, player.cash) == 1){
+                player.cash = take_money(player.price, player.cash);
+                nastavBarvu(10);
+                cout << "Nakup probehl.\n";
+                cout << "\n";
+                nastavBarvu(7);
+            }
+            else{
+                nastavBarvu(4);
+                cout << "Nakup neprobehl.\n";
+                nastavBarvu(7);
+            }
+        break;
+}
+
     cout << "damage_section_be_made\n";
 }
+
 else if(player.nakup == "odejit"){
     cout << "Rozhodl ses odejit.\n";
 }
-}while(player.nakup != "odejit");
+
+else{
+    cout << "Invalid text.\n";
+}
+
+}while(player.nakup != "odejit" && player.life > 0);
 
 return 0;
 }
@@ -242,7 +502,7 @@ case 5:
     cout << "Field manual 0856: Zaklady osetrovatelstvi (+ 10 hp pri heal), cena: 8k $\n";
     break;
 case 10:
-    cout << "Field manual 0857: Osetrovatelství pro vojenske lekare (+ 15 hp pri heal), cena: 14k $\n";
+    cout << "Field manual 0857: Osetrovatelstvï¿½ pro vojenske lekare (+ 15 hp pri heal), cena: 14k $\n";
     break;
 case 15:
     cout << "Field manual 0858: Osetrovatelstvi pro vojenske chirurky (+ 20 hp pri heal), cena: 20k $\n";
@@ -319,8 +579,8 @@ void nastavBarvu(int barva) {
 }
 
 int random_num(){
-    srand(time(0));  // Inicializace generátoru
-    int random = rand() % 100 + 1;  // Èíslo v rozmezí 1-100
+    srand(time(0));  // Inicializace generï¿½toru
+    int random = rand() % 100 + 1;  // ï¿½ï¿½slo v rozmezï¿½ 1-100
     return random;
 }
 
@@ -336,3 +596,19 @@ else{
 return pokracovani;
 }
 
+int take_money(int cena, int penize){
+penize = penize - cena;
+return penize;
+}
+
+void status_check(int life, int attack, int armour, int reload, int heal, int level, string jmeno){
+cout << "Tvoje vylepseni.\n";
+cout << "Jmeno: " << jmeno << endl;
+cout << "Uroven: " << level << endl;
+cout << "Zivoty: " << life << " hp\n";
+cout << "Sila utoku: -" << attack << " dmg\n";
+cout << "Neprustrelna vesta: " << armour << " dmg\n";
+cout << "Reload: +" << reload << " dmg\n";
+cout << "Leceni: +" << heal << " hp\n";
+cout << "\n";
+}
