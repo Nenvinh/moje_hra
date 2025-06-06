@@ -9,7 +9,7 @@ void manual(bool promena = true);
 int random_num();
 void nastavBarvu(int barva);
 bool enough(int ammo_usage, int ammo_count);
-void market(string jmeno, int life, int ammo_gain, int armour, int heal, int attack, int level);
+void market(string jmeno, int life, int ammo_gain, int armour, int heal, int attack, int level, int max_ammo);
 int take_money(int cena, int penize);
 void status_check(int life, int attack, int armour, int reload, int heal, int level, string jmeno);
 
@@ -34,7 +34,7 @@ struct{
 
     int heal = 5;
     int level = 1;
-    int cash = 120;
+    int cash = 220;
     string nakup;
     int price = 0;
 
@@ -178,9 +178,7 @@ cout << "Dorazil jsi na vojenskou zakladnu. Zakladna Foxtrox Whiskey, otevreno p
 cout << "\n";
 do{
 status_check(player.max_life, player.attack, player.armour, player.ammo_gain, player.heal, player.level, player.jmeno);
-market(player.jmeno, player.max_life, player.ammo_gain, player.armour, player.heal, player.attack, player.level);
-
-
+market(player.jmeno, player.max_life, player.ammo_gain, player.armour, player.heal, player.attack, player.level, player.max_ammo);
 cout << "Penize: " << player.cash << "k $"<< endl;
 cout << "Rozhodnuti: ";
 cin >> player.nakup;
@@ -467,6 +465,63 @@ else if(player.nakup == "damage"){
 }
 }
 
+else if (player.nakup == "ammo"){
+    switch (player.max_ammo)
+{
+        case 30:
+        player.price = 4;
+            if (enough(player.price, player.cash) == 1){
+                player.cash = take_money(player.price, player.cash);
+                nastavBarvu(10);
+                player.max_ammo = 40;
+                cout << "Nakup probehl.\n";
+                cout << "\n";
+                nastavBarvu(7);
+            }
+            else{
+                nastavBarvu(4);
+                cout << "Nakup neprobehl.\n";
+                nastavBarvu(7);
+            }
+        break;
+        case 40:
+        player.price = 8;
+            if (enough(player.price, player.cash) == 1){
+                player.cash = take_money(player.price, player.cash);
+                nastavBarvu(10);
+                player.max_ammo = 50;
+                cout << "Nakup probehl.\n";
+                cout << "\n";
+                nastavBarvu(7);
+            }
+            else{
+                nastavBarvu(4);
+                cout << "Nakup neprobehl.\n";
+                nastavBarvu(7);
+            }
+        break;
+        case 50:
+        player.price = 12;
+            if (enough(player.price, player.cash) == 1){
+                player.cash = take_money(player.price, player.cash);
+                nastavBarvu(10);
+                player.max_ammo = 60;
+                cout << "Nakup probehl.\n";
+                cout << "\n";
+                nastavBarvu(7);
+            }
+            else{
+                nastavBarvu(4);
+                cout << "Nakup neprobehl.\n";
+                nastavBarvu(7);
+            }
+        break;
+        default:
+           cout << "Obchodnik: 'Nic vice tady neprodavame'\n";
+        break;
+}
+}
+
 else if(player.nakup == "odejit"){
     cout << "Rozhodl ses odejit.\n";
 }
@@ -480,7 +535,7 @@ else{
 return 0;
 }
 
-void market(string jmeno, int life, int ammo_gain, int armour, int heal, int attack, int level){
+void market(string jmeno, int life, int ammo_gain, int armour, int heal, int attack, int level, int max_ammo){
 cout << "\n";
 cout << "Dostupna nabidka:\n";
 cout << "   life: ";
@@ -510,6 +565,22 @@ case 20:
     cout << "Ammo box (+ 25 munice pri reload), cena: 24k $\n";
     break;
 case 25:
+    cout << "Vsechny vylepseni zakoupeny.\n";
+    break;
+}
+cout << "   ammo: ";
+switch (max_ammo)
+{
+case 30:
+    cout << "Standarni webbing (zvyseni max. kapacity munice na 40), cena: 4k $\n";
+    break;
+case 40:
+    cout << "Machine gunner webbing (zvyseni max. kapacity munice na 50), cena: 8k $\n";
+    break;
+case 50:
+    cout << "Special forces webbing (zvyseni max. kapacity munice na 60), cena: 12k $\n";
+    break;
+case 60:
     cout << "Vsechny vylepseni zakoupeny.\n";
     break;
 }
@@ -558,6 +629,7 @@ case 50:
     cout << "Vsechny vylepseni zakoupeny.\n";
     break;  
 }
+
 cout << "Odejit - Odejdes ze zakladny.\n";
 }
 
@@ -629,6 +701,5 @@ cout << "Sila utoku: - " << attack << " dmg\n";
 cout << "Neprustrelna vesta: " << armour << " dmg\n";
 cout << "Reload: + " << reload << " ammo\n";
 cout << "Leceni: + " << heal << " hp\n";
-cout << "\n";
 }
 
