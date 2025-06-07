@@ -46,13 +46,21 @@ struct{
     string final_boss = " Andres 'Ascendrax' Dragan ";
     string mini_boss_1 = "place_holder_name1";
     string mini_boss_2 = "place_holder_name2";
+
     float life = 30;
     int damage = 10;
+
+    float life_2 = 30;
+    int damage_2 = 10;
+
+    float life_3 = 30;
+    int damage_3 = 10;
+
     float level = 1;
-    int pocet = 1;
+    int pocet = 0;
 }opfor;
 
-
+//standart combat
 //parametry
 bool opakovani = false;
 int fumble = 0;
@@ -532,6 +540,140 @@ else{
 
 }while(player.nakup != "odejit" && player.life > 0);
 
+//multi opfor
+opakovani = false;
+fumble = 0;
+opfor.pocet = 2;
+do{
+    nastavBarvu(10);
+    cout << "-------------------------------------------------------FRIENDLY ACTIONS-------------------------------------------------"<<endl;
+    string utok;
+    cout << "Player stats: \n";
+    cout << "Player life: " << player.life << " hp" << endl;
+    cout << "Player ammo: " << player.ammo << endl;
+    cout << "Player attack: " << player.attack << " dmg" << endl;
+    cout << "\n";
+    nastavBarvu(4);
+    cout << "OPFOR stats: \n";
+    cout << "OPFOR_1: \n";
+    cout << "OPFOR life: " << opfor.life << " hp" << endl;
+    cout << "OPFOR attack: " << opfor.damage << " dmg" << endl;
+    cout << "\n";
+    if(opfor.pocet >= 2){
+    cout << "OPFOR_2: \n";
+    cout << "OPFOR life: " << opfor.life_2 << " hp" << endl;
+    cout << "OPFOR attack: " << opfor.damage_2 << " dmg" << endl;
+    cout << "\n";
+    }
+    if(opfor.pocet = 3){
+    cout << "OPFOR_3: \n";
+    cout << "OPFOR life: " << opfor.life_3 << " hp" << endl;
+    cout << "OPFOR attack: " << opfor.damage_3 << " dmg" << endl;
+    cout << "\n";
+    }
+    nastavBarvu(7);
+    manual();
+    for (int i = 1; i<=3; i++){
+    cout << "Vyber si akci (spray, aim, reload, heal): ";
+    cin >> utok;
+    if (utok == "spray"){
+        switch(enough(player.ammo_usage, player.ammo)){
+        case 0:
+            cout << "\n";
+            nastavBarvu(4);
+            cout << "Stiskl jsi spoust a zbran nevystrelila, nemas dostatek munice.\n";
+            nastavBarvu(7);
+            cout << "\n";
+            break;
+        case 1:
+            //kdyz je dostatek naboju
+            player.ammo = player.ammo - player.ammo_usage;
+            opfor.life = opfor.life - player.attack;
+            cout << "\n";
+            cout << "Zacal jsi strilet na nepritele, - " << player.attack << " dmg.\n";
+            cout << "Vyuzil jsi: " << "- " << player.ammo_usage << " naboju.\n";
+            i = 3;
+            break;
+        default:
+            cout << "Error - spray_switch line 83.\n";
+            break;
+
+    };
+    }
+    else if(utok == "aim"){
+        switch(enough(player.ammo_usage_heavy, player.ammo)){
+        case 0:
+            cout << "\n";
+            nastavBarvu(4);
+            cout << "Zamiril jsi a stiskl spoust, zjistil jsi, ze nemas dostatek munice\n";
+            nastavBarvu(7);
+            cout << "\n";
+            break;
+        case 1:
+        //pokud je dostatek munice
+        player.ammo = player.ammo - player.ammo_usage_heavy;
+        opfor.life = opfor.life - player.heavy_attack;
+        cout << "\n";
+        cout << "Zamiril jsi na nepritele a strilel, - " << player.heavy_attack << " dmg.\n";
+        cout << "Vyuzil jsi: " << "- " << player.ammo_usage_heavy << " naboju.\n";
+        i = 3;
+        };
+    }
+    else if(utok == "reload"){
+        player.ammo = player.ammo + player.ammo_gain;
+        if (player.ammo<=player.max_ammo){
+            cout << "\n";
+            cout << "Prebij jsi zasobnik, + " << player.ammo_gain << " munice\n";
+            i = 3;
+        }
+        else{
+            cout << "\n";
+            cout << "Mas dostatek munice, nedokazes nest vice munice.\n";
+            player.ammo = player.ammo - player.ammo_gain;
+            cout << "\n";
+        }
+    }
+    else if(utok == "heal"){
+        player.life = player.life + player.heal;
+        if(player.life <= player.max_life){
+            cout << "\n";
+            cout << "Vylecil ses, + " << player.heal << " hp\n";
+            i = 3;
+        }
+        else{
+            player.life = player.life - player.heal;
+            cout << "\n";
+            cout << "Nejsi zraneni, nemuzes se vylecit.\n";
+            cout << "\n";
+        }
+    }
+    else if(utok == "skip"){
+        opfor.life = 0;
+        i = 3;
+        cout << "                                                  Skipping fight\n";
+    }
+    else {
+        player.life = player.life * 0.5;
+        cout << "\n";
+        cout << "Zpanikaril jsi a nepritel te zasahl, - " << player.life << " hp.\n";
+        i = 3;
+    }
+    }
+
+
+    cout << "OPFOR life: " << opfor.life << endl;
+
+    nastavBarvu(4);
+    if (opfor.life >0){
+    cout << "--------------------------------------------------------ENEMY ACTIONS---------------------------------------------------"<<endl;
+    cout << "Nepritel na tebe zautocil.\n";
+    player.life = player.life - (opfor.damage - player.armour);
+    cout << "- " << opfor.damage << " hp\n";
+    }
+
+}while(player.life>0&&opfor.life>0);
+player_defeat(player.life, opfor.life);
+
 return 0;
 }
 
@@ -627,7 +769,7 @@ case 40:
     break;
 case 50:
     cout << "Vsechny vylepseni zakoupeny.\n";
-    break;  
+    break;
 }
 
 cout << "Odejit - Odejdes ze zakladny.\n";
