@@ -19,14 +19,14 @@ struct{
     string jmeno = "Random_placeholder_name";
 
     string schopnosti;
-    int life = 24;
-    int max_life = 24;
+    int life = 240;
+    int max_life = 240;
     int attack = 10; // all attack
 
     int heavy_attack = attack * 2;
 
-    int ammo = 30;
-    int max_ammo = 30;
+    int ammo = 300;
+    int max_ammo = 300;
     int ammo_usage = 10;
     int ammo_usage_heavy = ammo_usage * 1.5;
     int ammo_gain = 10;
@@ -66,7 +66,7 @@ bool opakovani = false;
 int fumble = 0;
 do{
     nastavBarvu(10);
-    cout << "-------------------------------------------------------FRIENDLY ACTIONS-------------------------------------------------"<<endl;
+    cout << "-------------------------------------------------------"<< player.jmeno << " STATS-------------------------------------------------"<<endl;
     string utok;
     cout << "Player stats: \n";
     cout << "Player life: " << player.life << " hp" << endl;
@@ -74,12 +74,16 @@ do{
     cout << "Player attack: " << player.attack << " dmg" << endl;
     cout << "\n";
     nastavBarvu(4);
+    cout << "-------------------------------------------------------OPFOR STATS-------------------------------------------------"<<endl;
     cout << "OPFOR stats: \n";
     cout << "OPFOR life: " << opfor.life << " hp" << endl;
     cout << "OPFOR attack: " << opfor.damage << " dmg" << endl;
     cout << "\n";
     nastavBarvu(7);
     manual();
+    nastavBarvu(10);
+    cout << "-------------------------------------------------------"<< player.jmeno << " ACTIONS-------------------------------------------------"<<endl;
+    nastavBarvu(7);
     for (int i = 1; i<=3; i++){
     cout << "Vyber si akci (spray, aim, reload, heal): ";
     cin >> utok;
@@ -541,12 +545,24 @@ else{
 }while(player.nakup != "odejit" && player.life > 0);
 
 //multi opfor
+//parametry - combat
 opakovani = false;
 fumble = 0;
-opfor.pocet = 2;
+//parametry - opfor
+opfor.pocet = 3;
+//prvni opfor
+opfor.life = 30;
+opfor.damage = 10;
+//druhy opfor
+opfor.life_2 = 30;
+opfor.damage_3 = 10;
+//prvni opfor
+opfor.life_3 = 30;
+opfor.damage_3 = 10;
+
 do{
     nastavBarvu(10);
-    cout << "-------------------------------------------------------FRIENDLY ACTIONS-------------------------------------------------"<<endl;
+    cout << "-------------------------------------------------------"<< player.jmeno << " STATS-------------------------------------------------"<<endl;
     string utok;
     cout << "Player stats: \n";
     cout << "Player life: " << player.life << " hp" << endl;
@@ -554,25 +570,35 @@ do{
     cout << "Player attack: " << player.attack << " dmg" << endl;
     cout << "\n";
     nastavBarvu(4);
-    cout << "OPFOR stats: \n";
+    cout << "-------------------------------------------------------OPFOR STATS-------------------------------------------------"<<endl;
     cout << "OPFOR_1: \n";
     cout << "OPFOR life: " << opfor.life << " hp" << endl;
     cout << "OPFOR attack: " << opfor.damage << " dmg" << endl;
     cout << "\n";
-    if(opfor.pocet >= 2){
+    switch (opfor.pocet)
+    {
+    case 2:
     cout << "OPFOR_2: \n";
     cout << "OPFOR life: " << opfor.life_2 << " hp" << endl;
     cout << "OPFOR attack: " << opfor.damage_2 << " dmg" << endl;
     cout << "\n";
-    }
-    if(opfor.pocet = 3){
+        break;
+    case 3:
+    cout << "OPFOR_2: \n";
+    cout << "OPFOR life: " << opfor.life_2 << " hp" << endl;
+    cout << "OPFOR attack: " << opfor.damage_2 << " dmg" << endl;
+    cout << "\n";
     cout << "OPFOR_3: \n";
     cout << "OPFOR life: " << opfor.life_3 << " hp" << endl;
     cout << "OPFOR attack: " << opfor.damage_3 << " dmg" << endl;
     cout << "\n";
+        break;
     }
     nastavBarvu(7);
     manual();
+    nastavBarvu(10);
+    cout << "-------------------------------------------------------"<< player.jmeno << " ACTIONS-------------------------------------------------"<<endl;
+    nastavBarvu(7);
     for (int i = 1; i<=3; i++){
     cout << "Vyber si akci (spray, aim, reload, heal): ";
     cin >> utok;
@@ -592,6 +618,14 @@ do{
             cout << "\n";
             cout << "Zacal jsi strilet na nepritele, - " << player.attack << " dmg.\n";
             cout << "Vyuzil jsi: " << "- " << player.ammo_usage << " naboju.\n";
+            switch(opfor.pocet){
+                case 2:
+                
+                break;
+                case 3:
+                
+                break;
+            }
             i = 3;
             break;
         default:
@@ -628,7 +662,9 @@ do{
         }
         else{
             cout << "\n";
+            nastavBarvu(4);
             cout << "Mas dostatek munice, nedokazes nest vice munice.\n";
+            nastavBarvu(7);
             player.ammo = player.ammo - player.ammo_gain;
             cout << "\n";
         }
@@ -643,7 +679,9 @@ do{
         else{
             player.life = player.life - player.heal;
             cout << "\n";
+            nastavBarvu(4);
             cout << "Nejsi zraneni, nemuzes se vylecit.\n";
+            nastavBarvu(7);
             cout << "\n";
         }
     }
@@ -664,14 +702,30 @@ do{
     cout << "OPFOR life: " << opfor.life << endl;
 
     nastavBarvu(4);
-    if (opfor.life >0){
+    if ((opfor.life>0)&&(opfor.life_2>0)&&(opfor.life_3>0)){
     cout << "--------------------------------------------------------ENEMY ACTIONS---------------------------------------------------"<<endl;
-    cout << "Nepritel na tebe zautocil.\n";
-    player.life = player.life - (opfor.damage - player.armour);
-    cout << "- " << opfor.damage << " hp\n";
+    if (opfor.life>0){
+        cout << "Nepritel_1 na tebe zautocil.\n";
+        player.life = player.life - (opfor.damage - player.armour);
+        cout << "- " << opfor.damage << " hp\n";   
+    }
+    if(opfor.life_2>0){
+        cout << "Nepritel_2 na tebe zautocil.\n";
+        player.life = player.life - (opfor.damage_2 - player.armour);
+        cout << "- " << opfor.damage << " hp\n";
+    }
+    if(opfor.life_3>0){
+        cout << "Nepritel_3 na tebe zautocil.\n";
+        player.life = player.life - (opfor.damage_3 - player.armour);
+        cout << "- " << opfor.damage_3 << " hp\n";
+    }
+    
+    
+
+
     }
 
-}while(player.life>0&&opfor.life>0);
+}while(player.life>0 && opfor.life>0 && opfor.life_2>0 && opfor.life_3>0);
 player_defeat(player.life, opfor.life);
 
 return 0;
@@ -812,8 +866,8 @@ void nastavBarvu(int barva) {
 }
 
 int random_num(){
-    srand(time(0));  // Inicializace gener�toru
-    int random = rand() % 100 + 1;  // ��slo v rozmez� 1-100
+    srand(time(0));  // Inicializace genertoru
+    int random = rand() % 100 + 1;  // slo v rozmez 1-100
     return random;
 }
 
