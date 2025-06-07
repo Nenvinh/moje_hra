@@ -435,6 +435,7 @@ cin >> tutorial;
 else{
     cout << player.jmeno << " pripraven do boje. Vysilam do oblasti MCZ-256.\n";
     cout << "Mise 'Modra': Zajmout nebo zabit Andres 'Ascendrax' Dragan.\n";
+    cout << "\n";
     switch(player.player_class){
     //rifleman
     case 1:
@@ -521,8 +522,17 @@ else{
         player.cash = 5;
     break;
 }
-
 }
+
+cout << "Prichozi zprava:\n";
+cout << "Predmet: Oblast MCZ-256\n";
+cout << "Od: MG Schimt, zodpovedna osoba za oblast MCZ-256\n";
+cout << "Pro zelenace v teto oblasti,\n";
+cout << "oblast MCZ-256 je vyznacena zona, na ktery se S.F.D. a Fulicka republika dohodna jako sporne uzemi, tim padem zakony jakekoliv statu zde neplati.\n";
+cout << "V oblasti MCZ-256 proto prebivaji nejnebezpecnejsi zlocinci a zabijaci celeho sveta a schovavaji se pred zakonem. Spojene narody ale v zone sestavili\n";
+cout << "nekolik zakladem to jest: na severu zony zakladna Foxtrox Whisky, na zapadu zakladna White Mountain a na jiho-vychode zakladna Black Waterfall.\n";
+cout << "Cesta mezi zakladnami a obecne v zone je velmi nebezpecna. 'Ascendrax' byl naposledy spatren pobliz jiho-vychodnich hranic zony.\n";
+cout << "Hodne stesti.\n";
 
 
 return 0;
