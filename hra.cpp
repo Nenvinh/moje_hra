@@ -4058,7 +4058,372 @@ if(randomNum % 2 == 1 && player.life > 0){
 }
 cout << "\n";
 
+cout << "\n";
+cout << "Dorazil jsi na vojenskou zakladnu. Zakladna Black Waterfall, otevreno pro obchod.\n";
+cout << "\n";
+cout << "---------------------------------------------------------------OBCHOD---------------------------------------------------------------"<<endl;
+cout << "\n";
+player.life = player.max_life;
+cout << "Behem vstupu do zaklady, te doktor osetril, Life: " << player.life << " Hp\n";
+player.ammo = player.max_ammo;
+cout << "Behem vstupu do zaklady, sis doplnil naboje na max, Ammo: " << player.ammo << endl;
+cout << "\n";
+do{
+status_check(player.max_life, player.attack, player.armour, player.ammo_gain, player.heal, player.level, player.jmeno);
+market(player.jmeno, player.max_life, player.ammo_gain, player.armour, player.heal, player.attack, player.level, player.max_ammo);
+cout << "\n";
+cout << "Penize: " << player.cash << "k $"<< endl;
+cout << "Rozhodnuti: ";
+cin >> player.nakup;
 
+if(player.nakup == "life"){
+    switch(player.max_life){
+        case 24:
+            player.price = 12;
+            if (enough(player.price, player.cash) == 1){
+                player.cash = take_money(player.price, player.cash);
+                nastavBarvu(10);
+                player.max_life = 34;
+                cout << "Nakup probehl.\n";
+                cout << "\n";
+                nastavBarvu(7);
+            }
+            else{
+                nastavBarvu(4);
+                cout << "Nakup neprobehl.\n";
+                nastavBarvu(7);
+            }
+        break;
+        case 34:
+            player.price = 16;
+            if (enough(player.price, player.cash) == 1){
+                player.cash = take_money(player.price, player.cash);
+                nastavBarvu(10);
+                player.max_life = 39;
+                cout << "Nakup probehl.\n";
+                cout << "\n";
+                nastavBarvu(7);
+            }
+            else{
+                nastavBarvu(4);
+                cout << "Nakup neprobehl.\n";
+                nastavBarvu(7);
+            }
+
+        break;
+        case 39:
+            player.price = 20;
+            if (enough(player.price, player.cash) == 1){
+                player.cash = take_money(player.price, player.cash);
+                nastavBarvu(10);
+                player.max_life = 44;
+                cout << "Nakup probehl.\n";
+                cout << "\n";
+                nastavBarvu(7);
+            }
+            else{
+                nastavBarvu(4);
+                cout << "Nakup neprobehl.\n";
+                nastavBarvu(7);
+            }
+        break;
+        default:
+            cout << "Obchodnik: 'Nic vice tady neprodavame'\n";
+            break;
+}
+}
+
+else if(player.nakup == "reload"){
+    switch(player.ammo_gain){
+        case 10:
+            player.price = 8;
+            if (enough(player.price, player.cash) == 1){
+                player.cash = take_money(player.price, player.cash);
+                nastavBarvu(10);
+                player.ammo_gain = 15;
+                cout << "Nakup probehl.\n";
+                cout << "\n";
+                nastavBarvu(7);
+            }
+            else{
+                nastavBarvu(4);
+                cout << "Nakup neprobehl.\n";
+                nastavBarvu(7);
+            }
+        break;
+        case 15:
+            player.price = 16;
+            if (enough(player.price, player.cash) == 1){
+                player.cash = take_money(player.price, player.cash);
+                nastavBarvu(10);
+                player.ammo_gain = 20;
+                cout << "Nakup probehl.\n";
+                cout << "\n";
+                nastavBarvu(7);
+            }
+            else{
+                nastavBarvu(4);
+                cout << "Nakup neprobehl.\n";
+                nastavBarvu(7);
+            }
+        break;
+        case 20:
+            player.price = 24;
+            if (enough(player.price, player.cash) == 1){
+                player.cash = take_money(player.price, player.cash);
+                nastavBarvu(10);
+                player.ammo_gain = 25;
+                cout << "Nakup probehl.\n";
+                cout << "\n";
+                nastavBarvu(7);
+            }
+            else{
+                nastavBarvu(4);
+                cout << "Nakup neprobehl.\n";
+                nastavBarvu(7);
+            }
+        break;
+        default:
+            cout << "Obchodnik: 'Nic vice tady neprodavame'\n";
+        break;
+
+}
+}
+
+else if(player.nakup == "armour"){
+    switch(player.armour){
+        case 0:
+            player.price = 15;
+            if (enough(player.price, player.cash) == 1){
+                player.cash = take_money(player.price, player.cash);
+                nastavBarvu(10);
+                player.armour = 10;
+                cout << "Nakup probehl.\n";
+                cout << "\n";
+                nastavBarvu(7);
+            }
+            else{
+                nastavBarvu(4);
+                cout << "Nakup neprobehl.\n";
+                nastavBarvu(7);
+            }
+        break;
+        case 10:
+            player.price = 28;
+            if (enough(player.price, player.cash) == 1){
+                player.cash = take_money(player.price, player.cash);
+                nastavBarvu(10);
+                player.armour = 20;
+                cout << "Nakup probehl.\n";
+                cout << "\n";
+                nastavBarvu(7);
+            }
+            else{
+                nastavBarvu(4);
+                cout << "Nakup neprobehl.\n";
+                nastavBarvu(7);
+            }
+        break;
+        case 20:
+            player.price = 15;
+            if (enough(player.price, player.cash) == 1){
+                player.cash = take_money(player.price, player.cash);
+                nastavBarvu(10);
+                player.armour = 30;
+                cout << "Nakup probehl.\n";
+                cout << "\n";
+                nastavBarvu(7);
+            }
+            else{
+                nastavBarvu(4);
+                cout << "Nakup neprobehl.\n";
+                nastavBarvu(7);
+            }
+        break;
+        default:
+            cout << "Obchodnik: 'Nic vice tady neprodavame'\n";
+        break;
+}
+}
+
+else if(player.nakup == "heal"){
+    switch(player.heal){
+        case 5:
+            player.price = 8;
+            if (enough(player.price, player.cash) == 1){
+                player.cash = take_money(player.price, player.cash);
+                nastavBarvu(10);
+                player.heal = 10;
+                cout << "Nakup probehl.\n";
+                cout << "\n";
+                nastavBarvu(7);
+            }
+            else{
+                nastavBarvu(4);
+                cout << "Nakup neprobehl.\n";
+                nastavBarvu(7);
+            }
+        break;
+        case 10:
+            player.price = 14;
+            if (enough(player.price, player.cash) == 1){
+                player.cash = take_money(player.price, player.cash);
+                nastavBarvu(10);
+                player.heal = 15;
+                cout << "Nakup probehl.\n";
+                cout << "\n";
+                nastavBarvu(7);
+            }
+            else{
+                nastavBarvu(4);
+                cout << "Nakup neprobehl.\n";
+                nastavBarvu(7);
+            }
+        break;
+        case 15:
+            player.price = 20;
+            if (enough(player.price, player.cash) == 1){
+                player.cash = take_money(player.price, player.cash);
+                nastavBarvu(10);
+                player.heal = 20;
+                cout << "Nakup probehl.\n";
+                cout << "\n";
+                nastavBarvu(7);
+            }
+            else{
+                nastavBarvu(4);
+                cout << "Nakup neprobehl.\n";
+                nastavBarvu(7);
+            }
+        break;
+        default:
+            cout << "Obchodnik: 'Nic vice tady neprodavame'\n";
+        break;
+}
+}
+
+else if(player.nakup == "damage"){
+    switch(player.attack){
+        case 10:
+            player.price = 10;
+            if (enough(player.price, player.cash) == 1){
+                player.cash = take_money(player.price, player.cash);
+                nastavBarvu(10);
+                player.attack = 25;
+                cout << "Nakup probehl.\n";
+                cout << "\n";
+                nastavBarvu(7);
+            }
+            else{
+                nastavBarvu(4);
+                cout << "Nakup neprobehl.\n";
+                nastavBarvu(7);
+            }
+        break;
+        case 25:
+            player.price = 25;
+            if (enough(player.price, player.cash) == 1){
+                player.cash = take_money(player.price, player.cash);
+                nastavBarvu(10);
+                player.attack = 40;
+                cout << "Nakup probehl.\n";
+                cout << "\n";
+                nastavBarvu(7);
+            }
+            else{
+                nastavBarvu(4);
+                cout << "Nakup neprobehl.\n";
+                nastavBarvu(7);
+            }
+        break;
+        case 40:
+            player.price = 40;
+            if (enough(player.price, player.cash) == 1){
+                player.cash = take_money(player.price, player.cash);
+                nastavBarvu(10);
+                player.attack = 55;
+                cout << "Nakup probehl.\n";
+                cout << "\n";
+                nastavBarvu(7);
+            }
+            else{
+                nastavBarvu(4);
+                cout << "Nakup neprobehl.\n";
+                nastavBarvu(7);
+            }
+        break;
+        default:
+            cout << "Obchodnik: 'Nic vice tady neprodavame'\n";
+        break;
+}
+}
+
+else if (player.nakup == "ammo"){
+    switch (player.max_ammo)
+{
+        case 30:
+        player.price = 4;
+            if (enough(player.price, player.cash) == 1){
+                player.cash = take_money(player.price, player.cash);
+                nastavBarvu(10);
+                player.max_ammo = 40;
+                cout << "Nakup probehl.\n";
+                cout << "\n";
+                nastavBarvu(7);
+            }
+            else{
+                nastavBarvu(4);
+                cout << "Nakup neprobehl.\n";
+                nastavBarvu(7);
+            }
+        break;
+        case 40:
+        player.price = 8;
+            if (enough(player.price, player.cash) == 1){
+                player.cash = take_money(player.price, player.cash);
+                nastavBarvu(10);
+                player.max_ammo = 50;
+                cout << "Nakup probehl.\n";
+                cout << "\n";
+                nastavBarvu(7);
+            }
+            else{
+                nastavBarvu(4);
+                cout << "Nakup neprobehl.\n";
+                nastavBarvu(7);
+            }
+        break;
+        case 50:
+        player.price = 12;
+            if (enough(player.price, player.cash) == 1){
+                player.cash = take_money(player.price, player.cash);
+                nastavBarvu(10);
+                player.max_ammo = 60;
+                cout << "Nakup probehl.\n";
+                cout << "\n";
+                nastavBarvu(7);
+            }
+            else{
+                nastavBarvu(4);
+                cout << "Nakup neprobehl.\n";
+                nastavBarvu(7);
+            }
+        break;
+        default:
+           cout << "Obchodnik: 'Nic vice tady neprodavame'\n";
+        break;
+}
+}
+
+else if(player.nakup == "odejit"){
+    cout << "Rozhodl ses odejit.\n";
+}
+
+else{
+    cout << "Invalid text.\n";
+}
+
+}while(player.nakup != "odejit" && player.life >= 0);
 
 
 ///final boss
