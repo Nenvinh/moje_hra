@@ -44,6 +44,10 @@ struct{
     int inventory[3]{0, 0, 0};
     int player_class;
     int add_money;
+
+    bool odchod;
+
+    int pocet_smrti = 0;
 }player;
 
 //opfor
@@ -849,7 +853,6 @@ while(player.life >0 && opfor.life >0){
 
 };
 player_defeat(player.life, opfor.life);
-
 srand(time(0));
 randomNum = rand() % 100;
 if(randomNum % 2 == 1 && player.life > 0){
@@ -1189,7 +1192,6 @@ break;
 
 };
 player_defeat(player.life, opfor.life);
-
 srand(time(0));
 randomNum = rand() % 100;
 if(randomNum % 2 == 1 && player.life > 0){
@@ -1204,7 +1206,10 @@ fumble = 0;
 //parametry nepritele
 opfor.life = 20;
 opfor.damage = 12;
+
+if(player.life>0){
 cout << "MINI BOSS\n";
+}
 while(player.life >0 && opfor.life > 0){
        nastavBarvu(10);
     cout << "-------------------------------------------------------"<< player.jmeno << " STATS-------------------------------------------------"<<endl;
@@ -1331,7 +1336,6 @@ while(player.life >0 && opfor.life > 0){
         }
     }
 };
-
 player_defeat(player.life, opfor.life);
 if(player.life>0){
     cout << "Ziskal jsi od bosse penize. + 20K $\n";
@@ -1342,6 +1346,7 @@ if(player.life>0){
 ///Obchod foxtrox Whiskey
 
 if(player.life>0){
+nastavBarvu(7);
 cout << "\n";
 cout << "Dorazil jsi na vojenskou zakladnu. Zakladna Foxtrox Whiskey, otevreno pro obchod.\n";
 cout << "\n";
@@ -1353,7 +1358,8 @@ player.ammo = player.max_ammo;
 cout << "Behem vstupu do zaklady, sis doplnil naboje na max, Ammo: " << player.ammo << endl;
 cout << "\n";
 }
-while(player.nakup != "odejit" && player.life > 0){
+player.odchod = false;
+while(player.odchod != true && player.life > 0){
     status_check(player.max_life, player.attack, player.armour, player.ammo_gain, player.heal, player.level, player.jmeno);
 market(player.jmeno, player.max_life, player.ammo_gain, player.armour, player.heal, player.attack, player.level, player.max_ammo);
 cout << "\n";
@@ -1702,6 +1708,7 @@ else if (player.nakup == "ammo"){
 
 else if(player.nakup == "odejit"){
     cout << "Rozhodl ses odejit.\n";
+    player.odchod = true;
 }
 
 else{
@@ -2188,7 +2195,6 @@ break;
 
 };
 player_defeat(player.life, opfor.life);
-
 srand(time(0));
 randomNum = rand() % 100;
 if(randomNum % 2 == 1 && player.life > 0){
@@ -2528,7 +2534,6 @@ break;
 
 };
 player_defeat(player.life, opfor.life);
-
 srand(time(0));
 randomNum = rand() % 100;
 if(randomNum % 2 == 1 && player.life > 0){
@@ -2544,7 +2549,9 @@ fumble = 0;
 //parametry nepritele
 opfor.life = 40;
 opfor.damage = 20;
+if(player.life>0){
 cout << "MINI BOSS\n";
+}
 while(player.life >0 && opfor.life > 0){
        nastavBarvu(10);
     cout << "-------------------------------------------------------"<< player.jmeno << " STATS-------------------------------------------------"<<endl;
@@ -2671,7 +2678,6 @@ while(player.life >0 && opfor.life > 0){
         }
     }
 };
-
 player_defeat(player.life, opfor.life);
 if(player.life>0){
     cout << "Ziskal jsi od bosse penize. + 20K $\n";
@@ -2681,6 +2687,7 @@ if(player.life>0){
 
 ///Obchod White mountain
 if(player.life>0){
+nastavBarvu(7);
 cout << "\n";
 cout << "Dorazil jsi na vojenskou zakladnu. Zakladna White Mountain, otevreno pro obchod.\n";
 cout << "\n";
@@ -2692,7 +2699,8 @@ player.ammo = player.max_ammo;
 cout << "Behem vstupu do zaklady, sis doplnil naboje na max, Ammo: " << player.ammo << endl;
 cout << "\n";
 }
-while(player.nakup != "odejit" && player.life > 0){
+player.odchod = false;
+while(player.odchod != true && player.life > 0){
     status_check(player.max_life, player.attack, player.armour, player.ammo_gain, player.heal, player.level, player.jmeno);
 market(player.jmeno, player.max_life, player.ammo_gain, player.armour, player.heal, player.attack, player.level, player.max_ammo);
 cout << "\n";
@@ -3041,6 +3049,7 @@ else if (player.nakup == "ammo"){
 
 else if(player.nakup == "odejit"){
     cout << "Rozhodl ses odejit.\n";
+    player.odchod = true;
 }
 
 else{
@@ -3722,7 +3731,6 @@ break;
 
 };
 player_defeat(player.life, opfor.life);
-
 srand(time(0));
 randomNum = rand() % 100;
 if(randomNum % 2 == 1 && player.life > 0){
@@ -4063,7 +4071,6 @@ break;
 
 };
 player_defeat(player.life, opfor.life);
-
 srand(time(0));
 randomNum = rand() % 100;
 if(randomNum % 2 == 1 && player.life > 0){
@@ -4073,6 +4080,7 @@ if(randomNum % 2 == 1 && player.life > 0){
 cout << "\n";
 
 if(player.life>0){
+nastavBarvu(7);
 cout << "\n";
 cout << "Dorazil jsi na vojenskou zakladnu. Zakladna Black Waterfall, otevreno pro obchod.\n";
 cout << "\n";
@@ -4084,7 +4092,8 @@ player.ammo = player.max_ammo;
 cout << "Behem vstupu do zaklady, sis doplnil naboje na max, Ammo: " << player.ammo << endl;
 cout << "\n";
 }
-while(player.nakup != "odejit" && player.life > 0){
+player.odchod = false;
+while(player.odchod != true && player.life > 0){
     status_check(player.max_life, player.attack, player.armour, player.ammo_gain, player.heal, player.level, player.jmeno);
 market(player.jmeno, player.max_life, player.ammo_gain, player.armour, player.heal, player.attack, player.level, player.max_ammo);
 cout << "\n";
@@ -4433,6 +4442,7 @@ else if (player.nakup == "ammo"){
 
 else if(player.nakup == "odejit"){
     cout << "Rozhodl ses odejit.\n";
+    player.odchod = true;
 }
 
 else{
@@ -4579,7 +4589,6 @@ case 1:
 
 };
 player_defeat(player.life, opfor.final_boss_healt);
-
 if(player.life > 0){
     cout << "Dohral jsi hru!\n";
 }
